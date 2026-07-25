@@ -12,6 +12,7 @@ const isPublicRoute = createRouteMatcher([
 // Role-restricted routes
 const isAdminRoute = createRouteMatcher(["/campaigns(.*)"]);
 const isCreatorRoute = createRouteMatcher(["/create-post(.*)"]);
+const isApproverRoute = createRouteMatcher(["/approve(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, sessionClaims } = await auth();
@@ -22,8 +23,9 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.redirect(signInUrl);
   }
 
-  // Extract user role from Clerk public metadata
-  const userRole = (sessionClaims?.metadata as { role?: string })?.role;
+  // Extract metadata injected from Clerk Session Token
+  const metadata = sessionClaims?.metadata as { role?: string } | undefined;
+  const userRole = metadata?.role;
 
   // Protect Campaign creation page (Admin only)
   if (isAdminRoute(req) && userRole !== "Admin") {
@@ -32,8 +34,14 @@ export default clerkMiddleware(async (auth, req) => {
 
   // Protect Post creation page (Creator only)
   if (isCreatorRoute(req) && userRole !== "Creator") {
+     return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
+  // Protect Post approval page (Approver only)
+  if (isApproverRoute(req) && userRole !== "Approver") {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
+  return NextResponse.next();
 });
 
 export const config = {
