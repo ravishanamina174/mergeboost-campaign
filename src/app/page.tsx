@@ -15,15 +15,15 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-6 pb-32">
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Pure White Card with Soft Border */}
-          <div className="p-6 bg-white border border-zinc-100 rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] text-left transition-shadow hover:shadow-[0_4px_24px_rgb(0,0,0,0.06)]">
+          <div className="p-6 bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] text-left transition-shadow hover:shadow-[0_4px_24px_rgb(0,0,0,0.06)]">
             <h3 className="font-semibold text-zinc-900">Campaign Management</h3>
             <p className="mt-2 text-sm text-zinc-500">Track and plan "Late Night Release Sprints" and product drops seamlessly.</p>
           </div>
-          <div className="p-6 bg-white border border-zinc-100 rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] text-left transition-shadow hover:shadow-[0_4px_24px_rgb(0,0,0,0.06)]">
+          <div className="p-6 bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] text-left transition-shadow hover:shadow-[0_4px_24px_rgb(0,0,0,0.06)]">
             <h3 className="font-semibold text-zinc-900">Multi-Platform Posting</h3>
             <p className="mt-2 text-sm text-zinc-500">Publish content across Twitter/X, LinkedIn, and Instagram with approval workflows.</p>
           </div>
-          <div className="p-6 bg-white border border-zinc-100 rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] text-left transition-shadow hover:shadow-[0_4px_24px_rgb(0,0,0,0.06)]">
+          <div className="p-6 bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] text-left transition-shadow hover:shadow-[0_4px_24px_rgb(0,0,0,0.06)]">
             <h3 className="font-semibold text-zinc-900">Audience Insights</h3>
             <p className="mt-2 text-sm text-zinc-500">Analyze performance during peak night-owl hours around 9:00 PM.</p>
           </div>

@@ -56,12 +56,12 @@ export default function CampaignsPage() {
         {/* Campaign List */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {campaigns.map((campaign) => (
-            <div key={campaign._id} className="p-6 bg-white border border-zinc-100 rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] flex flex-col justify-between group">
+            <div key={campaign._id} className="p-6 bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] flex flex-col justify-between group">
               <div>
                 <h3 className="text-lg font-semibold text-zinc-900">{campaign.name}</h3>
                 <p className="text-sm text-zinc-500 mt-1">{campaign.goal}</p>
               </div>
-              <div className="mt-6 flex items-center justify-between border-t border-zinc-100 pt-4">
+              <div className="mt-6 flex items-center justify-between border-t border-zinc-200 pt-4">
                 <span className="text-xs font-medium text-zinc-400 bg-zinc-50 px-2 py-1 rounded-md">
                   Created: {new Date(campaign.createdAt).toLocaleDateString()}
                 </span>
@@ -79,7 +79,7 @@ export default function CampaignsPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex justify-between items-center p-6 border-b border-zinc-100">
+            <div className="flex justify-between items-center p-6 border-b border-zinc-200">
               <h2 className="text-lg font-bold text-zinc-900">Create New Campaign</h2>
               <button onClick={() => setIsModalOpen(false)} className="text-zinc-400 hover:text-zinc-700">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>

@@ -1,31 +1,50 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
-import { uploadToR2 } from "@/lib/r2";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+const s3Client = new S3Client({
+  region: "auto",
+  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || "",
+  },
+});
 
 export async function POST(req: Request) {
   try {
-    const { userId } = await auth();
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const formData = await req.formData();
     const file = formData.get("file") as File;
 
     if (!file) {
-      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+      return NextResponse.json({ success: false, error: "No file uploaded" }, { status: 400 });
     }
 
-    // Convert file to Buffer for Cloudflare R2 SDK compatibility
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Upload to Cloudflare R2
-    const imageUrl = await uploadToR2(buffer, file.name, file.type);
+    // Create a unique filename
+    const fileExtension = file.name.split(".").pop();
+    const uniqueFileName = `uploads/${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExtension}`;
 
-    return NextResponse.json({ success: true, url: imageUrl });
+    // Upload to Cloudflare R2
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: process.env.R2_BUCKET_NAME,
+        Key: uniqueFileName,
+        Body: buffer,
+        ContentType: file.type,
+      })
+    );
+
+    // Construct Public URL
+    const publicDomain = process.env.R2_PUBLIC_DOMAIN?.replace(/\/$/, "");
+    const imageUrl = publicDomain
+      ? `${publicDomain}/${uniqueFileName}`
+      : `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${process.env.R2_BUCKET_NAME}/${uniqueFileName}`;
+
+    return NextResponse.json({ success: true, imageUrl });
   } catch (error) {
     console.error("R2 Upload Error:", error);
-    return NextResponse.json({ error: "Failed to upload image" }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Image upload failed" }, { status: 500 });
   }
 }

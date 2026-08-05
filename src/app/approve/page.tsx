@@ -48,8 +48,8 @@ export default function ApprovePage() {
           <p className="text-zinc-500 mt-1 text-sm">Review, approve, or reject pending social media posts.</p>
         </div>
 
-        <div className="bg-white border border-zinc-100 rounded-xl shadow-[0_2px_12px_rgb(0,0,0,0.03)] overflow-hidden">
-          <div className="border-b border-zinc-100 px-6 py-4 bg-zinc-50/50">
+        <div className="bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] overflow-hidden">
+          <div className="border-b border-zinc-200 px-6 py-4 bg-zinc-50/50">
             <h2 className="font-semibold text-zinc-900">Pending Review</h2>
           </div>
           
@@ -57,7 +57,7 @@ export default function ApprovePage() {
             {isLoading ? (
               <div className="p-12 text-center text-sm text-zinc-500">Loading pending posts...</div>
             ) : posts.length > 0 ? (
-              <div className="divide-y divide-zinc-100">
+              <div className="divide-y divide-zinc-200">
                 {posts.map((post) => (
                   <div key={post._id} className="p-6 transition-colors">
                     <div className="flex justify-between items-start gap-4">
