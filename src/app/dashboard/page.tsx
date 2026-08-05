@@ -139,10 +139,30 @@ export default function DashboardPage() {
                         </div>
                       </div>
 
-                      {/* Right Side: Campaign Name */}
-                      <div className="text-right shrink-0">
-                        <p className="text-xs font-medium text-zinc-400">Campaign</p>
-                        <p className="text-sm text-zinc-700 font-medium">{post.campaignName}</p>
+                      {/* Right Side: Campaign Name & Optional Scheduled Time */}
+                      <div className="text-right shrink-0 flex flex-col items-end gap-3">
+                        <div>
+                          <p className="text-xs font-medium text-zinc-400">Campaign</p>
+                          <p className="text-sm text-zinc-700 font-medium">{post.campaignName}</p>
+                        </div>
+                        
+                        {/* Display Scheduled Time if it exists */}
+                        {post.scheduledTime && (
+                          <div>
+                            <p className="text-xs font-medium text-zinc-400 flex items-center justify-end gap-1">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                              Scheduled
+                            </p>
+                            <p className="text-sm text-zinc-700 font-medium mt-0.5">
+                              {new Date(post.scheduledTime).toLocaleString([], {
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                              })}
+                            </p>
+                          </div>
+                        )}
                       </div>
 
                     </div>

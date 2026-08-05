@@ -19,6 +19,7 @@ export default function CreatePostPage() {
     description: "",
     hashtags: "",
     imageUrl: "",
+    scheduledTime: "", // <-- Added scheduledTime field
     targetPlatforms: [] as string[],
   });
 
@@ -82,14 +83,19 @@ export default function CreatePostPage() {
     }
 
     setIsLoading(true);
+    
+    // Create submission payload, handling optional scheduledTime
+    const payload = {
+      ...formData,
+      campaignName: selectedCampaign,
+      status: status,
+      scheduledTime: formData.scheduledTime ? formData.scheduledTime : null,
+    };
+
     await fetch("/api/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...formData,
-        campaignName: selectedCampaign,
-        status: status,
-      }),
+      body: JSON.stringify(payload),
     });
 
     setIsLoading(false);
@@ -200,6 +206,19 @@ export default function CreatePostPage() {
                   onChange={(e) => setFormData({ ...formData, hashtags: e.target.value })}
                   className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent"
                   placeholder="e.g. #marketing #launch #tech"
+                />
+              </div>
+              
+              {/* Scheduled Time Field */}
+              <div>
+                <label className="block text-sm font-medium text-zinc-700 mb-1">
+                  Scheduled Date & Time (Optional)
+                </label>
+                <input
+                  type="datetime-local"
+                  value={formData.scheduledTime}
+                  onChange={(e) => setFormData({ ...formData, scheduledTime: e.target.value })}
+                  className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 focus:border-transparent"
                 />
               </div>
 
