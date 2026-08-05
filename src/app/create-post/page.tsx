@@ -117,7 +117,7 @@ export default function CreatePostPage() {
               <div
                 key={campaign._id}
                 onClick={() => setSelectedCampaign(campaign.name)}
-                className="p-4 border border-zinc-200 rounded-lg hover:border-zinc-300 hover:shadow-xs cursor-pointer transition-all bg-white"
+                className="p-4 border border-zinc-200 rounded-lg hover:border-zinc-400 hover:shadow-xs cursor-pointer transition-all bg-white"
               >
                 <h3 className="font-medium text-zinc-900">{campaign.name}</h3>
                 <p className="text-sm text-zinc-500 mt-1 line-clamp-1">{campaign.goal}</p>
@@ -132,7 +132,7 @@ export default function CreatePostPage() {
 
       {/* Modern Post Creation Pop-Up Modal */}
       {selectedCampaign && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-900/40 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-zinc-900/40 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200 my-8">
             
             {/* Modal Header */}
