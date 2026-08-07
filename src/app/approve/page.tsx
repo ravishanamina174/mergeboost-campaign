@@ -63,21 +63,43 @@ export default function ApprovePage() {
                     <div className="flex justify-between items-start gap-4">
                       
                       {/* Post Content */}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-1">
-                          <h3 className="font-medium text-zinc-900">{post.title}</h3>
-                          <span className="text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 border border-yellow-200">
-                            {post.status}
-                          </span>
-                        </div>
-                        <p className="text-sm text-zinc-600 mt-2 bg-zinc-50 p-3 rounded-lg border border-zinc-100">{post.description}</p>
-                        <div className="mt-3 flex items-center gap-2">
-                          <span className="text-xs font-medium text-zinc-500 mr-2">Platforms:</span>
-                          {post.targetPlatforms.map((platform: string) => (
-                            <span key={platform} className="text-xs font-medium text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-md">
-                              {platform}
+                      <div className="flex-1 flex gap-4 items-start">
+                        
+                        {/* Optional Image Thumbnail */}
+                        {post.imageUrl && (
+                          <div className="relative shrink-0 w-20 h-20 rounded-lg overflow-hidden border border-zinc-200 bg-zinc-50">
+                            <img 
+                              src={post.imageUrl} 
+                              alt={post.title} 
+                              className="w-full h-full object-cover" 
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-1">
+                            <h3 className="font-medium text-zinc-900">{post.title}</h3>
+                            <span className="text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-700 border border-yellow-200">
+                              {post.status}
                             </span>
-                          ))}
+                          </div>
+                          <p className="text-sm text-zinc-600 mt-2 bg-zinc-50 p-3 rounded-lg border border-zinc-100">{post.description}</p>
+                          
+                          {/* Optional Hashtags */}
+                          {post.hashtags && (
+                            <p className="text-xs text-indigo-600 font-medium mt-1.5">
+                              {post.hashtags}
+                            </p>
+                          )}
+
+                          <div className="mt-3 flex items-center gap-2">
+                            <span className="text-xs font-medium text-zinc-500 mr-2">Platforms:</span>
+                            {post.targetPlatforms.map((platform: string) => (
+                              <span key={platform} className="text-xs font-medium text-zinc-500 bg-white border border-zinc-200 px-2 py-1 rounded-md">
+                                {platform}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
