@@ -74,6 +74,12 @@ export default async function Navbar() {
                   Approvals
                 </Link>
               )}
+              <Link 
+                href="/strategy" 
+                className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+              >
+                Strategy & Compliance
+              </Link>
             </>
           )}
         </nav>

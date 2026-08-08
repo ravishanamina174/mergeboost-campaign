@@ -1,6 +1,6 @@
 import React from "react";
 
-type Theme = "home" | "dashboard" | "campaigns" | "create" | "auth" | "approve";
+type Theme = "home" | "dashboard" | "campaigns" | "create" | "auth" | "approve" | "strategy";
 
 const gradients: Record<Theme, string[]> = {
   home: [
@@ -39,6 +39,12 @@ const gradients: Record<Theme, string[]> = {
     "from-purple-400/40 via-violet-300/20",
     "from-yellow-400/35 via-orange-300/20",
   ],
+  strategy: [
+    "from-yellow-200/25 via-orange-200/20",
+    "from-orange-100/25 via-amber-100/25",
+    "from-purple-200/20 via-violet-200/20",
+    "from-emerald-100/20 via-green-100/30",
+  ],
 };
 
 export default function AmbientBackground({
@@ -51,7 +57,7 @@ export default function AmbientBackground({
   const activeGradients = gradients[theme];
 
   return (
-    <div className="relative min-h-[calc(100vh-4rem)] w-full overflow-hidden bg-stone-100 transition-colors duration-1000">
+    <div className="relative min-h-[calc(100vh-4rem)] w-full overflow-hidden bg-stone-50 transition-colors duration-1000">
       {/* Soft diagonal color blobs */}
       <div aria-hidden="true" className={`pointer-events-none absolute -top-32 -left-20 h-[600px] w-[600px] rounded-full bg-gradient-to-br ${activeGradients[0]} to-transparent blur-[140px] transition-all duration-1000`} />
       <div aria-hidden="true" className={`pointer-events-none absolute -top-40 -right-20 h-[600px] w-[600px] rounded-full bg-gradient-to-bl ${activeGradients[1]} to-transparent blur-[140px] transition-all duration-1000`} />
@@ -59,7 +65,7 @@ export default function AmbientBackground({
       <div aria-hidden="true" className={`pointer-events-none absolute top-[70%] -left-32 h-[600px] w-[600px] rounded-full bg-gradient-to-r ${activeGradients[3]} to-transparent blur-[160px] transition-all duration-1000`} />
 
       {/* Minimal dotted pattern overlay, faded toward edges */}
-      <div
+      {/* <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.5]"
         style={{
@@ -68,7 +74,7 @@ export default function AmbientBackground({
           maskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%)",
           WebkitMaskImage: "radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%)",
         }}
-      />
+      /> */}
 
       <div className="relative z-10">{children}</div>
     </div>
