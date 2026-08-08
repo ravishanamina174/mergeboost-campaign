@@ -98,15 +98,15 @@ export default async function Navbar() {
           {userId ? (
             <div className="flex items-center gap-2.5">
               {/* Compact Role Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-[0.4rem] bg-zinc-100 hover:bg-zinc-200 rounded-[0.2rem] text-black text-xs font-medium transition-all">
+              <div className="inline-flex items-center gap-2 px-3 py-[0.4rem] bg-zinc-100 hover:bg-zinc-200 rounded-[0.6rem] text-black text-xs font-medium transition-all">
                 <span>Role: {role}</span>
 
                 {/* Status Indicator Circles */}
-                <div className="flex -space-x-1.5">
+                {/* <div className="flex -space-x-1.5">
                   <span className="h-3.5 w-3.5 rounded-full bg-yellow-400 border border-zinc-900"></span>
                   <span className="h-3.5 w-3.5 rounded-full bg-emerald-400 border border-zinc-900"></span>
                   <span className="h-3.5 w-3.5 rounded-full bg-violet-400 border border-zinc-900"></span>
-                </div>
+                </div> */}
               </div>
 
               {/* User Avatar */}
