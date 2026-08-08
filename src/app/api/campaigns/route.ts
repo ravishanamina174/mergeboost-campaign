@@ -38,7 +38,9 @@ export async function POST(req: Request) {
       name,
       goal,
       imageUrl: imageUrl || "",
-      createdBy: user.firstName ? `${user.firstName} ${user.lastName || ""}`.trim() : user.id,
+      createdBy: user?.firstName
+        ? `${user.firstName} ${user.lastName || ""}`.trim()
+        : user?.id || userId,
     });
 
     return NextResponse.json({ success: true, data: newCampaign }, { status: 201 });

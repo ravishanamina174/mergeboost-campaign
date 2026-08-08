@@ -4,7 +4,7 @@ import { Post } from "@/lib/models";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 1. Connect to MongoDB

@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
 
-    const query = status && status !== "ALL" ? { status } : {};
+    const query = status && status !== "ALL" ? { status: status as any } : {};
     const posts = await Post.find(query).sort({ createdAt: -1 });
 
     return NextResponse.json({ success: true, data: posts });
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       campaignName,
       targetPlatforms,
       status: status || "Draft",
-      scheduledTime: scheduledTime ? new Date(scheduledTime) : null,
+      scheduledTime: scheduledTime ? new Date(scheduledTime) : undefined,
       createdBy: creatorName,
     });
 
