@@ -47,6 +47,15 @@ export default async function Navbar() {
                 </Link>
               )}
 
+              {role === "Creator" && (
+                <Link 
+                  href="/drafts" 
+                  className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                >
+                  Drafts
+                </Link>
+              )}
+
               {role === "Admin" && (
                 <Link 
                   href="/campaigns" 

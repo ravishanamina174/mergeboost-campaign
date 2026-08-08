@@ -11,7 +11,7 @@ const isPublicRoute = createRouteMatcher([
 
 // Role-restricted routes
 const isAdminRoute = createRouteMatcher(["/campaigns(.*)"]);
-const isCreatorRoute = createRouteMatcher(["/create-post(.*)"]);
+const isCreatorRoute = createRouteMatcher(["/create-post(.*)" ,"/drafts(.*)"]);
 const isApproverRoute = createRouteMatcher(["/approve(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
