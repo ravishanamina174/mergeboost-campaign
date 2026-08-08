@@ -151,7 +151,7 @@ export default function AnalyticsDashboard() {
         <TabsContent value="hourly" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
             {/* Live Reach Area Chart */}
-            <Card className="col-span-4">
+            <Card className="col-span-full lg:col-span-4">
               <CardHeader>
                 <CardTitle>Live Reach (24h)</CardTitle>
                 <CardDescription>
@@ -190,7 +190,7 @@ export default function AnalyticsDashboard() {
             </Card>
 
             {/* Live Interactions Bar Chart */}
-            <Card className="col-span-3">
+            <Card className="col-span-full lg:col-span-3">
               <CardHeader>
                 <CardTitle>Interactions Setup</CardTitle>
                 <CardDescription>Hourly breakdown of engagement.</CardDescription>
