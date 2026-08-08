@@ -24,7 +24,7 @@ export default async function Navbar() {
         <nav className="hidden md:flex items-center gap-5 text-sm">
           <Link 
             href="/" 
-            className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+            className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
           >
             Home
           </Link>
@@ -33,7 +33,7 @@ export default async function Navbar() {
             <>
               <Link 
                 href="/dashboard" 
-                className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
               >
                 Dashboard
               </Link>
@@ -41,7 +41,7 @@ export default async function Navbar() {
               {role === "Creator" && (
                 <Link 
                   href="/create-post" 
-                  className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                  className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
                 >
                   Create Post
                 </Link>
@@ -50,7 +50,7 @@ export default async function Navbar() {
               {role === "Creator" && (
                 <Link 
                   href="/drafts" 
-                  className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                  className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
                 >
                   Drafts
                 </Link>
@@ -59,7 +59,7 @@ export default async function Navbar() {
               {role === "Admin" && (
                 <Link 
                   href="/campaigns" 
-                  className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                  className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
                 >
                   Campaigns
                 </Link>
@@ -69,14 +69,23 @@ export default async function Navbar() {
               {(role === "Approver") && (
                 <Link 
                   href="/approve" 
-                  className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                  className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
                 >
                   Approvals
                 </Link>
               )}
+
+              {(role === "Approver" || role === "Admin") && (
+                <Link 
+                  href="/analytics" 
+                  className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                >
+                  Analytics
+                </Link>
+              )}
               <Link 
                 href="/strategy" 
-                className="px-4 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
+                className="px-3 py-[0.3rem] hover:bg-zinc-100 rounded-[0.2rem] text-black transition-colors"
               >
                 Strategy & Compliance
               </Link>
