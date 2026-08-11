@@ -3,14 +3,18 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import { Post } from "@/lib/models";
 
-// GET: Fetch posts (Supports optional ?status= filtering)
+// GET: Fetch posts (Supports optional ?status= & ?creatorId= filtering)
 export async function GET(req: Request) {
   try {
     await connectDB();
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
+    const creatorId = searchParams.get("creatorId"); // <-- NEW
 
-    const query = status && status !== "ALL" ? { status: status as any } : {};
+    const query: any = {};
+    if (status && status !== "ALL") query.status = status;
+    if (creatorId) query.creatorId = creatorId; // <-- NEW
+
     const posts = await Post.find(query).sort({ createdAt: -1 });
 
     return NextResponse.json({ success: true, data: posts });
@@ -60,6 +64,8 @@ export async function POST(req: Request) {
       campaignName,
       targetPlatforms,
       status: status || "Draft",
+      published: false, // <-- NEW
+      creatorId: userId, // <-- NEW
       scheduledTime: scheduledTime ? new Date(scheduledTime) : undefined,
       createdBy: creatorName,
     });

@@ -5,7 +5,7 @@ export interface ICampaign extends Document {
   name: string;
   goal: string;
   imageUrl?: string;
-  createdBy: string; // Clerk User ID or Name
+  createdBy: string; 
   createdAt: Date;
 }
 
@@ -26,10 +26,12 @@ export interface IPost extends Document {
   imageUrl?: string;
   hashtags: string[];
   campaignName: string;
-  targetPlatforms: string[]; // e.g. ["X / Twitter", "Instagram", "LinkedIn"]
+  targetPlatforms: string[]; 
   status: "Draft" | "Pending Approval" | "Scheduled" | "Published" | "Rejected";
+  published: boolean; // <-- NEW
   scheduledTime?: Date;
-  createdBy: string; // Creator's name or User ID
+  createdBy: string; 
+  creatorId: string; // <-- NEW
   rejectionReason?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -48,14 +50,16 @@ const PostSchema: Schema = new Schema<IPost>(
       enum: ["Draft", "Pending Approval", "Scheduled", "Published", "Rejected"],
       default: "Draft",
     },
+    published: { type: Boolean, default: false }, // <-- NEW
     scheduledTime: { type: Date },
     createdBy: { type: String, required: true },
+    creatorId: { type: String, required: true }, // <-- NEW
     rejectionReason: { type: String },
   },
   { timestamps: true }
 );
 
-// Export Mongoose Models (preventing re-compilation models error in Next.js)
+// Export Mongoose Models
 export const Campaign: Model<ICampaign> =
   mongoose.models.Campaign || mongoose.model<ICampaign>("Campaign", CampaignSchema);
 

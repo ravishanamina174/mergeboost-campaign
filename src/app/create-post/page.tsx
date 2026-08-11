@@ -3,9 +3,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import AmbientBackground from "@/components/ui/shared/AmbientBackground";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 export default function CreatePostPage() {
   const router = useRouter();
+  const { userId } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -19,7 +21,7 @@ export default function CreatePostPage() {
     description: "",
     hashtags: "",
     imageUrl: "",
-    scheduledTime: "", // <-- Added scheduledTime field
+    scheduledTime: "",
     targetPlatforms: [] as string[],
   });
 
@@ -84,23 +86,44 @@ export default function CreatePostPage() {
 
     setIsLoading(true);
     
-    // Create submission payload, handling optional scheduledTime
+    // Convert space-separated hashtag string into an array of strings
+    const hashtagArray = formData.hashtags
+      ? formData.hashtags.split(" ").filter((tag) => tag.trim() !== "")
+      : [];
+
+    // Create submission payload with Clerk ID and default published state
     const payload = {
-      ...formData,
+      title: formData.title,
+      description: formData.description,
+      imageUrl: formData.imageUrl,
+      hashtags: hashtagArray,
+      targetPlatforms: formData.targetPlatforms,
       campaignName: selectedCampaign,
       status: status,
+      published: false,
+      creatorId: userId,
       scheduledTime: formData.scheduledTime ? formData.scheduledTime : null,
     };
 
-    await fetch("/api/posts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    setIsLoading(false);
-    setSelectedCampaign(null); // Close modal
-    router.push("/dashboard"); // Redirect to dashboard
+      const json = await res.json();
+      if (!res.ok) {
+        alert(json.error || "Failed to submit post.");
+      } else {
+        setSelectedCampaign(null);
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      alert("An error occurred while creating the post.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
