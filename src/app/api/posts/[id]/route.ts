@@ -13,15 +13,20 @@ export async function PATCH(
     // 2. Extract params (Post ID) and request body
     const { id } = await params;
     const body = await req.json();
-    const { status, rejectReason } = body;
+    
+    // 3. Extract the new 'published' field alongside the others
+    const { status, rejectReason, published } = body;
 
-    // 3. Find post by ID and update status and rejection reason
+    // 4. Build dynamic update object
+    const updateFields: any = {};
+    if (status) updateFields.status = status;
+    if (rejectReason !== undefined) updateFields.rejectReason = rejectReason || null;
+    if (typeof published === "boolean") updateFields.published = published;
+
+    // 5. Find post by ID and update
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      {
-        status,
-        rejectReason: rejectReason || null,
-      },
+      updateFields,
       { new: true } // returns the updated document
     );
 

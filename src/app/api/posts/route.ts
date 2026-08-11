@@ -9,11 +9,11 @@ export async function GET(req: Request) {
     await connectDB();
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
-    const creatorId = searchParams.get("creatorId"); // <-- NEW
+    const creatorId = searchParams.get("creatorId");
 
     const query: any = {};
     if (status && status !== "ALL") query.status = status;
-    if (creatorId) query.creatorId = creatorId; // <-- NEW
+    if (creatorId) query.creatorId = creatorId;
 
     const posts = await Post.find(query).sort({ createdAt: -1 });
 
@@ -64,8 +64,8 @@ export async function POST(req: Request) {
       campaignName,
       targetPlatforms,
       status: status || "Draft",
-      published: false, // <-- NEW
-      creatorId: userId, // <-- NEW
+      published: false,
+      creatorId: userId,
       scheduledTime: scheduledTime ? new Date(scheduledTime) : undefined,
       createdBy: creatorName,
     });
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
   }
 }
 
-// PATCH: Update post status (e.g. Pending Approval -> Published / Rejected / Scheduled)
+// PATCH: Update post status & published state
 export async function PATCH(req: Request) {
   try {
     const { userId } = await auth();
@@ -90,23 +90,28 @@ export async function PATCH(req: Request) {
 
     await connectDB();
     const body = await req.json();
-    const { postId, status, rejectionReason } = body;
+    
+    // Extract `published` alongside the other fields
+    const { postId, status, rejectionReason, published } = body;
 
     if (!postId || !status) {
       return NextResponse.json({ error: "Post ID and status are required" }, { status: 400 });
     }
 
     // Role safety check: Approver or Admin can approve/reject posts
-    if (["Published", "Scheduled", "Rejected"].includes(status) && !["Approver", "Admin"].includes(role)) {
+    // Added "Approved" to the array to prevent permission errors
+    if (["Published", "Scheduled", "Rejected", "Approved"].includes(status) && !["Approver", "Admin"].includes(role)) {
       return NextResponse.json({ error: "Forbidden: Approver role required" }, { status: 403 });
     }
 
+    // Dynamically build the update object
+    const updateData: any = { status };
+    if (rejectionReason !== undefined) updateData.rejectionReason = rejectionReason || null;
+    if (typeof published === "boolean") updateData.published = published;
+
     const updatedPost = await Post.findByIdAndUpdate(
       postId,
-      {
-        status,
-        ...(rejectionReason && { rejectionReason }),
-      },
+      updateData,
       { new: true }
     );
 
