@@ -91,12 +91,12 @@ export default function DashboardPage() {
           
           <div className="border-b border-zinc-200 px-6 py-4 flex items-center justify-between gap-4 bg-zinc-50/50">
             <h2 className="font-semibold text-zinc-900 whitespace-nowrap">Content Pipeline</h2>
-            <div className="flex gap-2 text-xs font-medium text-zinc-500 overflow-x-auto pb-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+            <div className="flex gap-2 text-[0.8rem] font-medium text-zinc-500 overflow-x-auto pb-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
               {["All", "Draft", "Pending Approval", "Approved", "Rejected"].map((tab) => (
                 <button 
                   key={tab}
                   onClick={() => setFilter(tab)}
-                  className={`whitespace-nowrap px-3 py-1.5 rounded-sm transition-colors ${filter === tab ? "bg-white text-zinc-900 border border-zinc-200 shadow-xs" : "hover:text-zinc-900 border border-transparent"}`}
+                  className={`whitespace-nowrap px-4 py-1.5 rounded-lg transition-colors ${filter === tab ? "bg-[#f8f9fc] text-zinc-900 border border-zinc-200 shadow-xs" : "hover:text-zinc-900 border border-transparent"}`}
                 >
                   {tab === "Pending Approval" ? "Pending" : tab}
                 </button>
@@ -144,7 +144,7 @@ export default function DashboardPage() {
 
                             <div className="mt-3 flex items-center gap-2">
                               {post.targetPlatforms.map((platform: string) => (
-                                <span key={platform} className="text-xs font-medium text-zinc-400 bg-white border border-zinc-200 px-2 py-1 rounded-md">
+                                <span key={platform} className="text-xs font-medium text-zinc-600 bg-white border border-zinc-200 px-2 py-1 rounded-md">
                                   {platform}
                                 </span>
                               ))}
@@ -193,11 +193,11 @@ export default function DashboardPage() {
         {/* NEW: Live Posts Section (Only visible to Admin & Approver) */}
         {isLoaded && isPrivileged && (
           <div className="mt-12 bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] overflow-hidden">
-            <div className="border-b border-emerald-200 px-6 py-4 bg-emerald-50/50 flex items-center gap-2">
-              <svg className="w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <div className="border-b border-gray-200 px-6 py-4 bg-white flex items-center gap-2">
+              {/* <svg className="w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> */}
               <div>
-                <h2 className="font-semibold text-emerald-900">Live Posts</h2>
-                <p className="text-xs text-emerald-700 mt-0.5">Currently active and published content across platforms.</p>
+                <h2 className="font-semibold text-black">Live Posts</h2>
+                <p className="text-xs text-black-700 mt-0.5">Currently active and published content across platforms.</p>
               </div>
             </div>
             
@@ -225,7 +225,7 @@ export default function DashboardPage() {
                               <p className="text-sm text-zinc-500 mt-2">{post.description}</p>
                               <div className="mt-3 flex items-center gap-2">
                                 {post.targetPlatforms.map((platform: string) => (
-                                  <span key={platform} className="text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md">
+                                  <span key={platform} className="text-xs font-medium text-zinc-600 bg-zync-600 border border-zync-600 px-2 py-1 rounded-md">
                                     {platform}
                                   </span>
                                 ))}
