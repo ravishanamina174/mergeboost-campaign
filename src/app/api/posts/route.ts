@@ -3,17 +3,21 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import { Post } from "@/lib/models";
 
-// GET: Fetch posts (Supports optional ?status= & ?creatorId= filtering)
+// GET: Fetch posts (Supports optional ?status=, ?creatorId= & ?published= filtering)
 export async function GET(req: Request) {
   try {
     await connectDB();
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
     const creatorId = searchParams.get("creatorId");
+    const published = searchParams.get("published");
 
     const query: any = {};
     if (status && status !== "ALL") query.status = status;
     if (creatorId) query.creatorId = creatorId;
+    
+    // NEW: Filter by published state if provided in the URL
+    if (published !== null) query.published = published === "true";
 
     const posts = await Post.find(query).sort({ createdAt: -1 });
 
@@ -99,7 +103,6 @@ export async function PATCH(req: Request) {
     }
 
     // Role safety check: Approver or Admin can approve/reject posts
-    // Added "Approved" to the array to prevent permission errors
     if (["Published", "Scheduled", "Rejected", "Approved"].includes(status) && !["Approver", "Admin"].includes(role)) {
       return NextResponse.json({ error: "Forbidden: Approver role required" }, { status: 403 });
     }

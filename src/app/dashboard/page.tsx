@@ -2,13 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import AmbientBackground from "@/components/ui/shared/AmbientBackground";
+import { useUser } from "@clerk/nextjs"; // NEW: Import Clerk's user hook
 
 export default function DashboardPage() {
+  const { user, isLoaded } = useUser();
+  const role = (user?.publicMetadata?.role as string) || "User";
+  const isPrivileged = role === "Admin" || role === "Approver";
+
   const [posts, setPosts] = useState<any[]>([]);
+  const [livePosts, setLivePosts] = useState<any[]>([]); // NEW: State for live posts
   const [isLoading, setIsLoading] = useState(true);
+  const [isLiveLoading, setIsLiveLoading] = useState(true);
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
+    // 1. Fetch all pipeline posts
     fetch("/api/posts")
       .then((res) => res.json())
       .then((json) => {
@@ -16,6 +24,18 @@ export default function DashboardPage() {
         setIsLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    // 2. Fetch live published posts ONLY if the user is Admin or Approver
+    if (isLoaded && isPrivileged) {
+      fetch("/api/posts?published=true")
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.success) setLivePosts(json.data);
+          setIsLiveLoading(false);
+        });
+    }
+  }, [isLoaded, isPrivileged]);
 
   // Filter posts based on the active tab
   const filteredPosts = filter === "All" 
@@ -66,10 +86,9 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Dynamic Posts Area */}
+        {/* Dynamic Posts Area (Content Pipeline) */}
         <div className="bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] overflow-hidden">
           
-          {/* HEADER: Added visible custom thin scrollbar for horizontal scrolling on mobile */}
           <div className="border-b border-zinc-200 px-6 py-4 flex items-center justify-between gap-4 bg-zinc-50/50">
             <h2 className="font-semibold text-zinc-900 whitespace-nowrap">Content Pipeline</h2>
             <div className="flex gap-2 text-xs font-medium text-zinc-500 overflow-x-auto pb-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
@@ -85,7 +104,6 @@ export default function DashboardPage() {
             </div>
           </div>
           
-          {/* LIST AREA: Added visible custom thin scrollbar for horizontal scrolling on mobile */}
           <div className="p-0 overflow-x-auto pb-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
             <div className="min-w-[700px]">
               {isLoading ? (
@@ -96,17 +114,10 @@ export default function DashboardPage() {
                     <div key={post._id} className="p-6 hover:bg-zinc-50/50 transition-colors">
                       <div className="flex justify-between items-start gap-4">
                         
-                        {/* Left Side: Thumbnail (if present) + Post Details */}
                         <div className="flex gap-4 items-start flex-1">
-                          
-                          {/* Optional Post Image Thumbnail */}
                           {post.imageUrl && (
                             <div className="relative shrink-0 w-20 h-20 rounded-lg overflow-hidden border border-zinc-200 bg-zinc-50">
-                              <img 
-                                src={post.imageUrl} 
-                                alt={post.title} 
-                                className="w-full h-full object-cover" 
-                              />
+                              <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
                             </div>
                           )}
 
@@ -119,14 +130,12 @@ export default function DashboardPage() {
                             </div>
                             <p className="text-sm text-zinc-500 mt-2">{post.description}</p>
                             
-                            {/* Optional Hashtags */}
                             {post.hashtags && (
                               <p className="text-xs text-indigo-600 font-medium mt-1.5">
                                 {post.hashtags}
                               </p>
                             )}
 
-                            {/* Display Rejection Reason if it exists */}
                             {post.status === "Rejected" && post.rejectReason && (
                               <div className="mt-3 bg-red-50 border border-red-100 text-red-600 text-xs px-3 py-2 rounded-md">
                                 <span className="font-semibold">Rejection Note:</span> {post.rejectReason}
@@ -143,14 +152,12 @@ export default function DashboardPage() {
                           </div>
                         </div>
 
-                        {/* Right Side: Campaign Name & Optional Scheduled Time */}
                         <div className="text-right shrink-0 flex flex-col items-end gap-3">
                           <div>
                             <p className="text-xs font-medium text-zinc-400">Campaign</p>
                             <p className="text-sm text-zinc-700 font-medium">{post.campaignName}</p>
                           </div>
                           
-                          {/* Display Scheduled Time if it exists */}
                           {post.scheduledTime && (
                             <div>
                               <p className="text-xs font-medium text-zinc-400 flex items-center justify-end gap-1">
@@ -168,7 +175,6 @@ export default function DashboardPage() {
                             </div>
                           )}
                         </div>
-
                       </div>
                     </div>
                   ))}
@@ -182,8 +188,71 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
-
         </div>
+
+        {/* NEW: Live Posts Section (Only visible to Admin & Approver) */}
+        {isLoaded && isPrivileged && (
+          <div className="mt-12 bg-white border border-zinc-200 rounded-lg shadow-[0_2px_12px_rgb(0,0,0,0.03)] overflow-hidden">
+            <div className="border-b border-emerald-200 px-6 py-4 bg-emerald-50/50 flex items-center gap-2">
+              <svg className="w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <div>
+                <h2 className="font-semibold text-emerald-900">Live Posts</h2>
+                <p className="text-xs text-emerald-700 mt-0.5">Currently active and published content across platforms.</p>
+              </div>
+            </div>
+            
+            <div className="p-0 overflow-x-auto pb-1 [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:bg-emerald-300 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+              <div className="min-w-[700px]">
+                {isLiveLoading ? (
+                  <div className="p-12 text-center text-sm text-zinc-500">Loading live posts...</div>
+                ) : livePosts.length > 0 ? (
+                  <div className="divide-y divide-zinc-100">
+                    {livePosts.map((post) => (
+                      <div key={post._id} className="p-6 hover:bg-emerald-50/30 transition-colors">
+                        <div className="flex justify-between items-start gap-4">
+                          
+                          <div className="flex gap-4 items-start flex-1">
+                            {post.imageUrl && (
+                              <div className="relative shrink-0 w-20 h-20 rounded-lg overflow-hidden border border-zinc-200 bg-zinc-50">
+                                <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
+                              </div>
+                            )}
+
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-1">
+                                <h3 className="font-medium text-zinc-900">{post.title}</h3>
+                              </div>
+                              <p className="text-sm text-zinc-500 mt-2">{post.description}</p>
+                              <div className="mt-3 flex items-center gap-2">
+                                {post.targetPlatforms.map((platform: string) => (
+                                  <span key={platform} className="text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-md">
+                                    {platform}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="text-right shrink-0">
+                            <p className="text-xs font-medium text-zinc-400">Campaign</p>
+                            <p className="text-sm text-zinc-700 font-medium">{post.campaignName}</p>
+                            <p className="text-xs font-medium text-zinc-400 mt-3">Author</p>
+                            <p className="text-sm text-zinc-700 font-medium">{post.createdBy}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-sm text-zinc-500">No live posts found.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </AmbientBackground>
   );
