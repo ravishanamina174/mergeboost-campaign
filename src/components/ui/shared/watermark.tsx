@@ -296,13 +296,68 @@ export default function MergeboostWatermark() {
             pointer-events: none;
           }
 
-          /* Desktop sizing */
+          /* ==========================================
+             DESKTOP SIZING
+             ========================================== */
+
           @media (min-width: 768px) {
             .mergeboost-base,
             .mergeboost-shine,
             .mergeboost-shine-glow,
             .mergeboost-shine-core {
               font-size: 12.8vw;
+            }
+          }
+
+          /* ==========================================
+             MOBILE RESPONSIVE
+             Desktop remains completely unchanged.
+             ========================================== */
+
+          @media (max-width: 767px) {
+            .mergeboost-watermark {
+              /*
+                Pull the watermark visually closer to
+                the section above on mobile.
+              */
+              transform: translateY(-45px);
+
+              /*
+                Prevent any horizontal overflow.
+              */
+              width: 100%;
+            }
+
+            .mergeboost-base,
+            .mergeboost-shine,
+            .mergeboost-shine-glow,
+            .mergeboost-shine-core {
+              /*
+                Keeps MERGEBOOST comfortably inside
+                the mobile viewport.
+              */
+              font-size: 16vw;
+
+              /*
+                Slightly tighter spacing for small screens.
+              */
+              letter-spacing: -0.055em;
+            }
+          }
+
+          /*
+            Very small mobile screens.
+          */
+          @media (max-width: 400px) {
+            .mergeboost-watermark {
+              transform: translateY(-35px);
+            }
+
+            .mergeboost-base,
+            .mergeboost-shine,
+            .mergeboost-shine-glow,
+            .mergeboost-shine-core {
+              font-size: 15.5vw;
             }
           }
 
