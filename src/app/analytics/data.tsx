@@ -1,11 +1,11 @@
 // app/analytics/data.tsx
 
 export const initialOverview = {
-  posts: 1205,
-  likes: 45231,
+  posts: 805,
+  likes: 95231,
   shares: 8904,
   comments: 12453,
-  reach: 230594,
+  reach: 730594,
 };
 
 // Generate 30 days of historical data for daily views

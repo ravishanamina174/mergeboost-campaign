@@ -34,29 +34,7 @@ The system follows a modern, decoupled Client-Server architecture utilizing the 
 
 ### 📊 Architecture Diagram
 
-```mermaid
-graph TD
-    Client[Client Browser / UI] -->|Auth Token| Clerk[Clerk Auth Service]
-    Client -->|HTTP GET/POST/PATCH| API[Next.js API Routes]
-    
-    API -->|Verify Session & Role| Clerk
-    API -->|Mongoose CRUD| DB[(MongoDB)]
-    API -->|Upload Media| R2[(R2 Object Storage)]
-    
-    subgraph Frontend
-    Client
-    end
-    
-    subgraph Backend Core
-    API
-    end
-    
-    subgraph External Infrastructure
-    Clerk
-    DB
-    R2
-    end
-```
+![Project Architecture](./public/architecture.png)
 
 ## 🗄️ 3. Database Design
 
