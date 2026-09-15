@@ -40,6 +40,9 @@ The system follows a modern, decoupled Client-Server architecture utilizing the 
 
 The primary entity is the `Post` model. We are using a NoSQL document structure (MongoDB) via Mongoose. User data is not heavily duplicated in our DB; instead, we rely on Clerk's user IDs (`creatorId`) to link records to authenticated users.
 
+
+![Database Design](./public/database-design.png)
+
 **Collection:** `posts`
 
 | Field | Type | Description |
