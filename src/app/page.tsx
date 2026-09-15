@@ -1,6 +1,7 @@
 "use client";
 
 import AmbientBackground from "@/components/ui/shared/AmbientBackground";
+import MergeboostWatermark from "@/components/ui/shared/watermark";
 
 export default function Home() {
   return (
@@ -61,9 +62,6 @@ export default function Home() {
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
                   </div>
-                  {/* <div className="mx-auto text-[10px] sm:text-xs font-medium text-zinc-400 font-mono tracking-wide">
-                    dashboard.mergeboost.app
-                  </div> */}
                   {/* Invisible spacer to balance the flex layout */}
                   <div className="w-[34px]"></div>
                 </div>
@@ -115,6 +113,13 @@ export default function Home() {
 
           </div>
         </section>
+
+        {/* ==========================================
+            WATERMARK SECTION
+        ========================================== */}
+        <div className="mt-20 mb-20 pb-8 flex justify-center">
+          <MergeboostWatermark />
+        </div>
 
       </div>
     </>
