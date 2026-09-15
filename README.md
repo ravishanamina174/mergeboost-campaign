@@ -34,7 +34,7 @@ The system follows a modern, decoupled Client-Server architecture utilizing the 
 
 ### 📊 Architecture Diagram
 
-![Project Architecture](./public/architecture.png)
+![Project Architecture](./public/architecture1.png)
 
 ## 🗄️ 3. Database Design
 
