@@ -34,10 +34,10 @@ const gradients: Record<Theme, string[]> = {
     "from-purple-400/30 via-violet-300/20",
   ],
   approve: [
-    "from-emerald-400/50 via-green-300/30",
-    "from-orange-400/45 via-amber-300/25",
-    "from-purple-400/40 via-violet-300/20",
-    "from-yellow-400/35 via-orange-300/20",
+    "from-emerald-200/50 via-green-100/30",
+    "from-orange-200/45 via-amber-100/25",
+    "from-purple-200/40 via-violet-100/20",
+    "from-yellow-200/35 via-orange-100/20",
   ],
   strategy: [
     "from-yellow-200/25 via-orange-200/20",

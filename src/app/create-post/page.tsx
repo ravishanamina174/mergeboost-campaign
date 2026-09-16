@@ -2,8 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import AmbientBackground from "@/components/ui/shared/AmbientBackground";
+import MergeboostWatermark from "@/components/ui/shared/watermark";
+import Footer from "@/components/ui/shared/footer";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
+
 
 export default function CreatePostPage() {
   const router = useRouter();
@@ -158,6 +161,18 @@ export default function CreatePostPage() {
           </div>
         </div>
       </div>
+
+      {/* ==========================================
+          WATERMARK SECTION
+      ========================================== */}
+      <div className="relative mt-10 mb-20 w-full h-[16vw] md:h-[13vw] flex justify-center">
+        <MergeboostWatermark />
+      </div>
+
+      {/* ==========================================
+          FOOTER SECTION
+      ========================================== */}
+      <Footer />
 
       {/* Modern Post Creation Pop-Up Modal */}
       {selectedCampaign && (

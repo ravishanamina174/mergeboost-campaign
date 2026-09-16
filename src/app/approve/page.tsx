@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import AmbientBackground from "@/components/ui/shared/AmbientBackground";
+import MergeboostWatermark from "@/components/ui/shared/watermark";
+import Footer from "@/components/ui/shared/footer";
 
 export default function ApprovePage() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -165,6 +167,19 @@ export default function ApprovePage() {
           </div>
         </div>
       </div>
+
+      {/* ==========================================
+          WATERMARK SECTION
+      ========================================== */}
+      <div className="relative mt-10 mb-20 w-full h-[16vw] md:h-[13vw] flex justify-center">
+        <MergeboostWatermark />
+      </div>
+
+      {/* ==========================================
+          FOOTER SECTION
+      ========================================== */}
+      <Footer />
+
     </AmbientBackground>
   );
 }

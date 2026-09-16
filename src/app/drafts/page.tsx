@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AmbientBackground from "@/components/ui/shared/AmbientBackground";
 import { useAuth } from "@clerk/nextjs";
 
 export default function DraftsPage() {
@@ -154,7 +153,7 @@ export default function DraftsPage() {
   );
 
   return (
-    <AmbientBackground theme="campaigns">
+    <div className="bg-[#fcfcfc] min-h-screen">
       <div className="max-w-5xl mx-auto px-6 pt-12 pb-24 relative space-y-12">
         
         <div>
@@ -265,6 +264,6 @@ export default function DraftsPage() {
         </div>
 
       </div>
-    </AmbientBackground>
+    </div>
   );
 }
