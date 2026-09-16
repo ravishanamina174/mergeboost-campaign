@@ -37,7 +37,7 @@ export default async function Navbar() {
             Home
           </Link>
 
-          {userId && (
+          {userId ? (
             <>
               <Link
                 href="/dashboard"
@@ -97,6 +97,24 @@ export default async function Navbar() {
               >
                 Strategy & Compliance
               </Link>
+            </>
+          ) : (
+            <>
+              {[
+                "Dashboard",
+                "Create Post",
+                "Drafts",
+                "Strategy & Compliance",
+              ].map((label) => (
+                <span
+                  key={label}
+                  aria-disabled="true"
+                  title="Sign in to access"
+                  className="px-3 py-[0.3rem] text-zinc-400 cursor-not-allowed"
+                >
+                  {label}
+                </span>
+              ))}
             </>
           )}
         </nav>

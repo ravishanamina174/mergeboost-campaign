@@ -8,6 +8,7 @@ interface NavLink {
   href: string;
   label: string;
   show: boolean;
+  disabled?: boolean;
 }
 
 interface NavbarMobileMenuProps {
@@ -20,13 +21,13 @@ export default function NavbarMobileMenu({ userId, role }: NavbarMobileMenuProps
 
   const links: NavLink[] = [
     { href: "/", label: "Home", show: true },
-    { href: "/dashboard", label: "Dashboard", show: !!userId },
-    { href: "/create-post", label: "Create Post", show: !!userId && role === "Creator" },
-    { href: "/drafts", label: "Drafts", show: !!userId && role === "Creator" },
+    { href: "/dashboard", label: "Dashboard", show: true, disabled: !userId },
+    { href: "/create-post", label: "Create Post", show: !userId || role === "Creator", disabled: !userId },
+    { href: "/drafts", label: "Drafts", show: !userId || role === "Creator", disabled: !userId },
     { href: "/campaigns", label: "Campaigns", show: !!userId && role === "Admin" },
     { href: "/approve", label: "Approvals", show: !!userId && role === "Approver" },
     { href: "/analytics", label: "Analytics", show: !!userId && (role === "Approver" || role === "Admin") },
-    { href: "/strategy", label: "Strategy & Compliance", show: !!userId },
+    { href: "/strategy", label: "Strategy & Compliance", show: true, disabled: !userId },
   ];
 
   return (
@@ -46,14 +47,25 @@ export default function NavbarMobileMenu({ userId, role }: NavbarMobileMenuProps
           {links
             .filter((link) => link.show)
             .map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="px-3 py-2 text-sm text-zinc-800 font-medium hover:bg-zinc-100 rounded-md transition-colors"
-              >
-                {link.label}
-              </Link>
+              link.disabled ? (
+                <span
+                  key={link.href}
+                  aria-disabled="true"
+                  title="Sign in to access"
+                  className="px-3 py-2 text-sm text-zinc-400 font-medium cursor-not-allowed rounded-md"
+                >
+                  {link.label}
+                </span>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsOpen(false)}
+                  className="px-3 py-2 text-sm text-zinc-800 font-medium hover:bg-zinc-100 rounded-md transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
         </div>
       )}
