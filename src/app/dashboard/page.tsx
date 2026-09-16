@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import AmbientBackground from "@/components/ui/shared/AmbientBackground";
 import { useUser } from "@clerk/nextjs"; // NEW: Import Clerk's user hook
 
 export default function DashboardPage() {
@@ -53,7 +52,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <AmbientBackground theme="dashboard">
+    <div className="min-h-screen bg-[#fcfcfc]">
       <div className="max-w-6xl mx-auto px-6 pt-12 pb-24">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-zinc-900 tracking-tight">Overview</h1>
@@ -254,6 +253,6 @@ export default function DashboardPage() {
         )}
 
       </div>
-    </AmbientBackground>
+    </div>
   );
 }
