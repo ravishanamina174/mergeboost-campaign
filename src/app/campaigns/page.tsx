@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import AmbientBackground from "@/components/ui/shared/AmbientBackground";
+import MergeboostWatermark from "@/components/ui/shared/watermark";
+import Footer from "@/components/ui/shared/footer";
 
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -39,7 +41,7 @@ export default function CampaignsPage() {
 
   return (
     <AmbientBackground theme="campaigns">
-      <div className="max-w-5xl mx-auto px-6 pt-12 pb-24 relative">
+      <div className="max-w-5xl mx-auto px-6 pt-12 pb-24 relative min-h-[60vh]">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-zinc-900 tracking-tight">Campaigns</h1>
@@ -74,6 +76,18 @@ export default function CampaignsPage() {
           )}
         </div>
       </div>
+
+      {/* ==========================================
+          WATERMARK SECTION (FIXED VISIBILITY)
+      ========================================== */}
+      <div className="relative mt-10 mb-20 w-full h-[16vw] md:h-[13vw] flex justify-center">
+        <MergeboostWatermark />
+      </div>
+      
+      {/* ==========================================
+          FOOTER SECTION
+      ========================================== */}
+      <Footer />
 
       {/* Modern Pop-Up Modal */}
       {isModalOpen && (
