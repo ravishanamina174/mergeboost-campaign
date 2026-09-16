@@ -68,3 +68,63 @@ The primary entity is the `Post` model. We are using a NoSQL document structure 
 - **Strict Access Control (RBAC):** The backend API enforces strict role checks. A standard creator mathematically cannot patch a post's status to `Published` or `Approved` via API manipulation, preventing unauthorized content from going live.
 - **Transparency & Feedback:** The workflow includes a `rejectReason` field. This ensures ethical management practices where creators aren't left in the dark about why their work was blocked; they receive direct, constructive feedback.
 - **Consent and Ownership:** By segregating data by `creatorId`, the system inherently protects users from having their drafts viewed, edited, or deleted by peers. Only authorized managers and the original author have visibility into a specific piece of pipeline content.
+
+## 🛠️ 5. Local Setup & Debugging Guide
+
+This project runs as a Next.js application integrated with MongoDB, Clerk authentication, and Cloudflare R2 for asset storage. Follow this guide to set up your local development environment and troubleshoot common issues.
+
+### 📋 Prerequisites
+Ensure you have the following installed and configured before starting:
+* **Node.js:** v20.x or higher
+* **MongoDB:** A local or cloud-hosted instance (e.g., MongoDB Atlas)
+* **Clerk Account:** For managing application authentication & roles
+* **Cloudflare R2:** An active bucket for media storage
+
+---
+
+### ⚙️ Environment Variables Setup
+Create a `.env.local` file in the root directory of your project and add the following keys:
+
+```env
+# Database Configuration
+MONGODB_URI=your_mongodb_connection_string
+
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+
+# Cloudflare R2 Storage
+R2_ACCOUNT_ID=your_r2_account_id
+R2_ACCESS_KEY_ID=your_r2_access_key
+R2_SECRET_ACCESS_KEY=your_r2_secret_key
+R2_BUCKET_NAME=your_bucket_name
+R2_PUBLIC_DOMAIN=https://your-public-domain
+```
+### 🚀 Getting Started
+
+Install Dependencies:
+npm install
+
+Run the Development Server:
+npm run dev
+
+Access the Application:
+Open your browser and navigate to http://localhost:3000.
+
+Verify Application Health:
+Run a production build check to ensure all environmental bindings and dependencies compile properly:
+npm run build
+
+Pro Tip (Hard Reset): If the application hangs or experiences cached build state issues, clear local artifacts and reinstall dependencies:
+rm -rf .next node_modules
+npm install
+npm run dev
+
+### 🔍 Debugging & Troubleshooting Checklist
+
+| Issue Area | Possible Cause | Solution |
+|---|---|---|
+| **Database Failure** | Invalid connection string or network block. | Verify `MONGODB_URI` and ensure your local IP is whitelisted in MongoDB Atlas. |
+| **Auth Failures** | Misconfigured Clerk credentials. | Confirm `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` match your dashboard. |
+| **Upload Errors** | Misconfigured object storage parameters. | Double-check your R2 access key ID, secret key, bucket name, and CORS settings. |
+| **API Route Errors** | Request execution runtime errors. | Inspect server logs and test endpoints directly via `/api/posts` or `/api/upload`. |
